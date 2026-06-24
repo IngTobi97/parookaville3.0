@@ -23,7 +23,7 @@ body {
 }
 
 .header h1 {
-    font-size: 2em;
+    font-size: 1.8em;
     color: white;
     text-shadow: 0 0 20px rgba(255,255,255,0.8);
     font-weight: 900;
@@ -32,7 +32,7 @@ body {
 
 .header p {
     color: rgba(255,255,255,0.9);
-    font-size: 1em;
+    font-size: 0.95em;
     margin-top: 5px;
 }
 
@@ -46,8 +46,8 @@ body {
 .nav-tabs {
     display: flex;
     background: rgba(0,0,0,0.3);
-    padding: 10px;
-    gap: 10px;
+    padding: 8px;
+    gap: 6px;
     justify-content: center;
     position: sticky;
     top: 0;
@@ -57,13 +57,12 @@ body {
 
 .nav-btn {
     flex: 1;
-    max-width: 200px;
-    padding: 12px;
+    padding: 10px 5px;
     border: 2px solid rgba(255,255,255,0.3);
-    border-radius: 25px;
+    border-radius: 20px;
     background: rgba(255,255,255,0.1);
     color: white;
-    font-size: 1em;
+    font-size: 0.85em;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s;
@@ -100,11 +99,13 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .section-header h2 {
     color: white;
-    font-size: 1.2em;
+    font-size: 1.1em;
     text-shadow: 0 0 10px rgba(255,255,255,0.5);
 }
 
@@ -117,7 +118,7 @@ body {
 .kategorie-tabelle {
     width: 100%;
     border-collapse: collapse;
-    min-width: 500px;
+    min-width: 400px;
 }
 
 .kategorie-tabelle th {
@@ -125,7 +126,7 @@ body {
     color: white;
     padding: 10px 8px;
     text-align: left;
-    font-size: 0.85em;
+    font-size: 0.82em;
     white-space: nowrap;
 }
 
@@ -152,7 +153,10 @@ body {
     color: white;
     width: 100%;
     font-size: 0.85em;
-    min-width: 150px;
+}
+
+.kategorie-tabelle input[type="time"] {
+    color-scheme: dark;
 }
 
 .kategorie-tabelle input::placeholder {
@@ -177,7 +181,7 @@ body {
     color: white;
     border: none;
     border-radius: 20px;
-    padding: 10px 18px;
+    padding: 10px 16px;
     font-weight: bold;
     cursor: pointer;
     font-size: 0.9em;
@@ -240,16 +244,14 @@ body {
     box-shadow: 0 4px 15px rgba(251,86,7,0.4);
 }
 
-.btn-pdf:hover {
-    transform: scale(1.02);
-}
+.btn-pdf:hover { transform: scale(1.02); }
 
 .btn-delete {
     background: linear-gradient(135deg, #ef233c, #d62839);
     color: white;
     border: none;
     border-radius: 20px;
-    padding: 10px 18px;
+    padding: 10px 16px;
     font-weight: bold;
     cursor: pointer;
     font-size: 0.9em;
@@ -263,7 +265,7 @@ body {
     color: white;
     border: none;
     border-radius: 20px;
-    padding: 10px 18px;
+    padding: 10px 16px;
     font-weight: bold;
     cursor: pointer;
     font-size: 0.9em;
@@ -331,9 +333,7 @@ body {
     font-size: 0.95em;
 }
 
-.teilnehmer-input input::placeholder {
-    color: rgba(255,255,255,0.4);
-}
+.teilnehmer-input input::placeholder { color: rgba(255,255,255,0.4); }
 
 .teilnehmer-input input:focus {
     outline: none;
@@ -367,9 +367,6 @@ body {
     color: white;
     cursor: pointer;
     font-size: 0.9em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 /* TAXI */
@@ -388,15 +385,9 @@ body {
     margin-bottom: 10px;
 }
 
-.taxi-header h3 {
-    color: white;
-    font-size: 1.1em;
-}
+.taxi-header h3 { color: white; font-size: 1.1em; }
 
-.taxi-actions {
-    display: flex;
-    gap: 8px;
-}
+.taxi-actions { display: flex; gap: 8px; }
 
 .sitzplatz-info {
     color: rgba(255,255,255,0.7);
@@ -404,7 +395,6 @@ body {
     margin-bottom: 10px;
 }
 
-/* TAXI FORMULAR */
 .taxi-formular {
     background: rgba(255,255,255,0.05);
     border-radius: 15px;
@@ -425,9 +415,7 @@ body {
     font-size: 0.95em;
 }
 
-.taxi-formular input::placeholder {
-    color: rgba(255,255,255,0.4);
-}
+.taxi-formular input::placeholder { color: rgba(255,255,255,0.4); }
 
 .taxi-formular input:focus {
     outline: none;
@@ -435,26 +423,154 @@ body {
     box-shadow: 0 0 10px rgba(58,134,255,0.3);
 }
 
-/* NEUE KATEGORIE BOX */
+/* CAMPPAPA BOX */
+.camppapa-box {
+    border: 2px solid rgba(255,215,0,0.4);
+    background: rgba(255,215,0,0.05);
+}
+
+.camppapa-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.camppapa-emoji {
+    font-size: 2.5em;
+}
+
+.camppapa-header h2 {
+    color: #ffd700;
+    font-size: 1.2em;
+    text-shadow: 0 0 15px rgba(255,215,0,0.6);
+}
+
+.camppapa-text {
+    color: rgba(255,255,255,0.85);
+    font-size: 0.9em;
+    line-height: 1.7;
+    background: rgba(0,0,0,0.2);
+    border-radius: 12px;
+    padding: 15px;
+}
+
+.camppapa-text strong {
+    color: #ffd700;
+}
+
+.camppapa-text em {
+    color: rgba(255,215,0,0.8);
+}
+
+/* FUNKTIONEN */
+.funktion-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.funktion-label {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.funktion-select {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 10px 15px;
+    color: white;
+    font-size: 0.95em;
+    width: 100%;
+}
+
+.funktion-select option {
+    background: #2d0057;
+    color: white;
+}
+
+.funktion-select:focus {
+    outline: none;
+    border-color: #ff006e;
+    box-shadow: 0 0 10px rgba(255,0,110,0.3);
+}
+
+.funktion-textarea {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 10px 15px;
+    color: white;
+    font-size: 0.9em;
+    width: 100%;
+    resize: vertical;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+}
+
+.funktion-textarea::placeholder { color: rgba(255,255,255,0.4); }
+
+.funktion-textarea:focus {
+    outline: none;
+    border-color: #ff006e;
+    box-shadow: 0 0 10px rgba(255,0,110,0.3);
+}
+
+/* TIMETABLE */
+.timetable-hinweis {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.85em;
+    text-align: center;
+}
+
+.teilnehmer-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    min-width: 150px;
+}
+
+.teilnehmer-chip {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 15px;
+    padding: 4px 10px;
+    font-size: 0.78em;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.teilnehmer-chip.dabei {
+    background: linear-gradient(135deg, #06d6a0, #3a86ff);
+    border-color: transparent;
+    color: white;
+    font-weight: bold;
+}
+
+.teilnehmer-chip:hover {
+    transform: scale(1.05);
+}
+
+/* SONSTIGES */
 .neue-kategorie-box {
     border: 2px dashed rgba(255,255,255,0.3);
 }
 
-/* ACTION BUTTONS */
 .action-buttons {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-/* VERSTECKT */
 .versteckt { display: none; }
 
-/* TAB CONTENT */
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
-/* MELDUNG */
 .meldung {
     position: fixed;
     bottom: 20px;
@@ -468,6 +584,7 @@ body {
     z-index: 1000;
     box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     animation: fadeInOut 3s ease;
+    white-space: nowrap;
 }
 
 @keyframes fadeInOut {
@@ -477,7 +594,6 @@ body {
     100% { opacity: 0; }
 }
 
-/* LEER HINWEIS */
 .leer-hinweis {
     color: rgba(255,255,255,0.4);
     text-align: center;
@@ -485,13 +601,12 @@ body {
     font-style: italic;
 }
 
-/* SCROLLBAR */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
 ::-webkit-scrollbar-thumb { background: #8338ec; border-radius: 3px; }
 
-/* RESPONSIVE */
 @media (max-width: 400px) {
-    .header h1 { font-size: 1.6em; }
+    .header h1 { font-size: 1.4em; }
     .container { margin: 10px; padding: 12px; }
+    .nav-btn { font-size: 0.75em; padding: 8px 3px; }
 }
