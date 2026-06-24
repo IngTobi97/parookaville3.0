@@ -313,9 +313,11 @@
                         placeholder="Was?" style="min-width:150px;"></td>
                     <td>
                         <select onchange="itemAktualisieren('${name}', ${i}, 'wer', this.value)">
-                            <option value="">-- Wer? --</option>
-                            ${teilnehmerOptionen}
-                        </select>
+    <option value="">-- Wer? --</option>
+    ${(window.daten.teilnehmer || []).map(t => `
+        <option value="${t}" ${item.wer === t ? 'selected' : ''}>${t}</option>
+    `).join("")}
+</select>
                     </td>
                     <td><input type="number" value="${item.anzahl || ''}" 
                         onchange="itemAktualisieren('${name}', ${i}, 'anzahl', this.value)" 
