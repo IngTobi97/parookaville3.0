@@ -152,7 +152,7 @@ body {
     color: white;
     width: 100%;
     font-size: 0.85em;
-    min-width: 80px;
+    min-width: 150px;
 }
 
 .kategorie-tabelle input::placeholder {
