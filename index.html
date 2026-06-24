@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎪 Parookaville 2024</title>
+    <title>🏕️ CampPapa Flores</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
@@ -12,14 +12,16 @@
 
 <!-- HEADER -->
 <div class="header">
-    <h1>🎪 Parookaville</h1>
-    <p>Party Hard! 🎉🔥💜</p>
+    <h1>🏕️ CampPapa Flores</h1>
+    <p>Parookaville 2025 🎪🔥💜</p>
 </div>
 
 <!-- NAVIGATION -->
 <div class="nav-tabs">
-    <button class="nav-btn active" onclick="showTab('packliste')">🎒 Packliste</button>
-    <button class="nav-btn" onclick="showTab('fahrdienst')">🚕 Fahrdienst</button>
+    <button class="nav-btn active" onclick="showTab('packliste', this)">🎒 Pack</button>
+    <button class="nav-btn" onclick="showTab('fahrdienst', this)">🚕 Fahrt</button>
+    <button class="nav-btn" onclick="showTab('funktionen', this)">👔 Jobs</button>
+    <button class="nav-btn" onclick="showTab('timetable', this)">🎵 Time</button>
 </div>
 
 <!-- TEILNEHMER BEREICH -->
@@ -29,18 +31,14 @@
     </div>
     <div class="teilnehmer-input">
         <input type="text" id="neuer-teilnehmer" placeholder="Name eingeben..." maxlength="20">
-        <button class="btn-add" onclick="teilnehmerHinzufuegen()">+ Hinzufügen</button>
+        <button class="btn-add" onclick="teilnehmerHinzufuegen()">+ Add</button>
     </div>
     <div id="teilnehmer-liste" class="teilnehmer-liste"></div>
 </div>
 
 <!-- PACKLISTE TAB -->
 <div id="tab-packliste" class="tab-content active">
-
-    <!-- KATEGORIEN WERDEN HIER GELADEN -->
     <div id="kategorien-container"></div>
-
-    <!-- NEUE KATEGORIE -->
     <div class="container neue-kategorie-box">
         <div class="section-header">
             <h2>➕ Neue Kategorie</h2>
@@ -50,42 +48,91 @@
             <button class="btn-add" onclick="kategorieHinzufuegen()">Erstellen</button>
         </div>
     </div>
-
-    <!-- BUTTONS -->
     <div class="container action-buttons">
         <button class="btn-save" onclick="allesSpeichern()">💾 Speichern</button>
         <button class="btn-pdf" onclick="pdfExport()">📄 PDF Export</button>
     </div>
-
 </div>
 
 <!-- FAHRDIENST TAB -->
 <div id="tab-fahrdienst" class="tab-content">
-
     <div class="container">
         <div class="section-header">
             <h2>🚕 Fahrdienstplanung</h2>
         </div>
-        <button class="btn-add-taxi" onclick="taxiFormularZeigen()">+ Neues Taxi hinzufügen</button>
-
-        <!-- TAXI FORMULAR -->
+        <button class="btn-add-taxi" onclick="taxiFormularZeigen()">+ Neues Fahrzeug hinzufügen</button>
         <div id="taxi-formular" class="taxi-formular versteckt">
             <input type="text" id="taxi-name" placeholder="Fahrzeug Name z.B. Maxis Auto">
             <input type="number" id="taxi-plaetze" placeholder="Anzahl Sitzplätze" min="1" max="20">
-            <button class="btn-save" onclick="taxiSpeichern()">✅ Taxi speichern</button>
+            <button class="btn-save" onclick="taxiSpeichern()">✅ Fahrzeug speichern</button>
             <button class="btn-delete" onclick="taxiFormularVerstecken()">❌ Abbrechen</button>
         </div>
-
         <div id="taxi-liste"></div>
         <button class="btn-save" style="margin-top:15px" onclick="fahrdienstSpeichern()">💾 Speichern</button>
     </div>
+</div>
 
+<!-- FUNKTIONEN TAB -->
+<div id="tab-funktionen" class="tab-content">
+    <div class="container camppapa-box">
+        <div class="camppapa-header">
+            <span class="camppapa-emoji">🏕️</span>
+            <h2>Nachricht vom CampPapa</h2>
+        </div>
+        <div class="camppapa-text">
+            <p>Moin moin, ihr Partytiger! 🎉</p>
+            <br>
+            <p>Willkommen in eurem persönlichen Camp-Kommandozentrum! Hier könnt ihr euch für die wichtigsten Managementposten unseres Camps bewerben – denn ja, wir machen das dieses Jahr <strong>professionell.</strong></p>
+            <br>
+            <p>Warum? Ganz einfach: Letztes Jahr haben wir eine Menge Geld liegen lassen – Müllpfand, Flaschenpfand, ihr wisst was ich meine. Und zwischendurch sah unser Camp aus wie ein Katastrophengebiet. Das läuft dieses Jahr anders! 💪</p>
+            <br>
+            <p>Der CampPapa liebt Struktur. Daher gibt es ab sofort offizielle Posten – mit echten Titeln und echter Verantwortung. <strong>Aber keine Panik:</strong> Als Manager müsst ihr nicht den Müll von allen alleine aufsammeln oder für die ganze Crew kochen. Ihr seid <strong>Führungskräfte.</strong> Ihr plant, koordiniert und delegiert. Jeder hilft mit – ihr behaltet den Überblick.</p>
+            <br>
+            <p>Also: Schnappt euch euren Posten, tragt euren Titel mit Stolz und lasst uns das beste Camp auf dem ganzen Parookaville hinlegen! 🏆🔥</p>
+            <br>
+            <p><em>– Euer CampPapa Flores 🌺</em></p>
+        </div>
+    </div>
+
+    <div id="funktionen-container"></div>
+
+    <div class="container neue-kategorie-box">
+        <div class="section-header">
+            <h2>➕ Neue Managementfunktion</h2>
+        </div>
+        <div class="teilnehmer-input">
+            <input type="text" id="neue-funktion-name" placeholder="Funktionsbezeichnung...">
+            <button class="btn-add" onclick="funktionHinzufuegen()">Erstellen</button>
+        </div>
+    </div>
+    <div class="container action-buttons">
+        <button class="btn-save" onclick="allesSpeichern()">💾 Speichern</button>
+    </div>
+</div>
+
+<!-- TIMETABLE TAB -->
+<div id="tab-timetable" class="tab-content">
+    <div class="container">
+        <div class="section-header">
+            <h2>🎵 Festival Timetable</h2>
+        </div>
+        <p class="timetable-hinweis">Plant euren perfekten Festivaltag! Einträge werden automatisch nach Uhrzeit sortiert. 🎶</p>
+    </div>
+
+    <!-- TAGE -->
+    <div id="timetable-freitag" class="timetable-tag"></div>
+    <div id="timetable-samstag" class="timetable-tag"></div>
+    <div id="timetable-sonntag" class="timetable-tag"></div>
+
+    <div class="container action-buttons">
+        <button class="btn-save" onclick="allesSpeichern()">💾 Speichern</button>
+    </div>
 </div>
 
 <!-- FIREBASE -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyCHv5CM8q4bbFzxqWwaHdM9a01lKNfZE_c",
@@ -107,26 +154,49 @@
             "Fun": [],
             "Essen": []
         },
-        taxis: []
+        taxis: [],
+        funktionen: {
+            "CampPapa": { person: "", beschreibung: "Der Boss des Camps. Behält den Überblick, trifft Entscheidungen und sorgt dafür dass alles läuft." },
+            "Food Service Manager": { person: "", beschreibung: "Koordiniert die Essensversorgung im Camp. Plant Mahlzeiten, organisiert Einkäufe und delegiert Kochaufgaben." },
+            "Pegel-Minister für Rausch und Genuss": { person: "", beschreibung: "Zuständig für die Getränkeversorgung und das allgemeine Wohlbefinden der Crew. Prost! 🍺" },
+            "Direktor des Pfand- und Rückgabewesens": { person: "", beschreibung: "Kein Pfand geht verloren! Organisiert das Sammeln und Zurückgeben von Pfandgut." },
+            "Der Kater-Akustiker für Musik und Bass": { person: "", beschreibung: "Sorgt für die perfekte musikalische Untermalung im Camp. Von Morgenplaylist bis Late Night Vibes." }
+        },
+        timetable: {
+            "Freitag": [],
+            "Samstag": [],
+            "Sonntag": []
+        }
     };
 
-    // ECHTZEIT LISTENER - Daten automatisch laden
+    // ECHTZEIT LISTENER
     onSnapshot(doc(db, "parookaville", "daten"), (docSnap) => {
         if (docSnap.exists()) {
-            window.daten = docSnap.data();
+            const geladeneDaten = docSnap.data();
+            // Sicherstellen dass alle Felder vorhanden sind
+            window.daten = {
+                teilnehmer: geladeneDaten.teilnehmer || [],
+                kategorien: geladeneDaten.kategorien || { "Ausrüstung": [], "Fun": [], "Essen": [] },
+                taxis: geladeneDaten.taxis || [],
+                funktionen: geladeneDaten.funktionen || window.daten.funktionen,
+                timetable: geladeneDaten.timetable || { "Freitag": [], "Samstag": [], "Sonntag": [] }
+            };
             teilnehmerRendern();
             kategorienRendern();
             taxiRendern();
+            funktionenRendern();
+            timetableRendern();
         }
     });
 
-    // SPEICHERN FUNKTIONEN
+    // SPEICHERN
     window.allesSpeichern = async function() {
         try {
             await setDoc(doc(db, "parookaville", "daten"), window.daten);
-            zeigeMeldung("✅ Gespeichert!");
+            zeigeMeldung("✅ Alles gespeichert!");
         } catch (e) {
             zeigeMeldung("❌ Fehler beim Speichern!");
+            console.error(e);
         }
     }
 
@@ -139,7 +209,9 @@
         }
     }
 
+    // =====================
     // TEILNEHMER
+    // =====================
     window.teilnehmerHinzufuegen = function() {
         const input = document.getElementById("neuer-teilnehmer");
         const name = input.value.trim();
@@ -153,6 +225,8 @@
         teilnehmerRendern();
         kategorienRendern();
         taxiRendern();
+        funktionenRendern();
+        timetableRendern();
     }
 
     window.teilnehmerLoeschen = function(index) {
@@ -160,6 +234,8 @@
         teilnehmerRendern();
         kategorienRendern();
         taxiRendern();
+        funktionenRendern();
+        timetableRendern();
     }
 
     function teilnehmerRendern() {
@@ -176,7 +252,9 @@
         `).join("");
     }
 
-    // KATEGORIEN
+    // =====================
+    // PACKLISTE
+    // =====================
     window.kategorieHinzufuegen = function() {
         const input = document.getElementById("neue-kategorie-name");
         const name = input.value.trim();
@@ -200,11 +278,7 @@
     window.itemHinzufuegen = function(kategorie) {
         if (!window.daten.kategorien[kategorie]) return;
         window.daten.kategorien[kategorie].push({
-            item: "",
-            wer: "",
-            anzahl: "",
-            kosten: "",
-            kommentar: ""
+            item: "", wer: "", anzahl: "", kosten: "", kommentar: ""
         });
         kategorienRendern();
     }
@@ -236,25 +310,22 @@
                 <tr>
                     <td><input type="text" value="${item.item || ''}" 
                         onchange="itemAktualisieren('${name}', ${i}, 'item', this.value)" 
-                        placeholder="Was?"></td>
+                        placeholder="Was?" style="min-width:150px;"></td>
                     <td>
                         <select onchange="itemAktualisieren('${name}', ${i}, 'wer', this.value)">
                             <option value="">-- Wer? --</option>
                             ${teilnehmerOptionen}
-                            ${item.wer && !window.daten.teilnehmer.includes(item.wer) 
-                                ? `<option value="${item.wer}" selected>${item.wer}</option>` 
-                                : `<option value="${item.wer}" ${item.wer ? 'selected' : ''}>${item.wer}</option>`}
                         </select>
                     </td>
                     <td><input type="number" value="${item.anzahl || ''}" 
                         onchange="itemAktualisieren('${name}', ${i}, 'anzahl', this.value)" 
-                        placeholder="0" min="0"></td>
+                        placeholder="0" min="0" style="min-width:60px;"></td>
                     <td><input type="number" value="${item.kosten || ''}" 
                         onchange="itemAktualisieren('${name}', ${i}, 'kosten', this.value)" 
-                        placeholder="0€" min="0" step="0.01"></td>
+                        placeholder="0€" min="0" step="0.01" style="min-width:70px;"></td>
                     <td><input type="text" value="${item.kommentar || ''}" 
                         onchange="itemAktualisieren('${name}', ${i}, 'kommentar', this.value)" 
-                        placeholder="Kommentar..."></td>
+                        placeholder="Kommentar..." style="min-width:120px;"></td>
                     <td><button class="btn-row-delete" onclick="itemLoeschen('${name}', ${i})">🗑️</button></td>
                 </tr>
             `).join("");
@@ -277,9 +348,7 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                ${zeilenHTML}
-                            </tbody>
+                            <tbody>${zeilenHTML}</tbody>
                         </table>
                     </div>
                     <button class="btn-add-item" onclick="itemHinzufuegen('${name}')">+ Item hinzufügen</button>
@@ -288,7 +357,9 @@
         }).join("");
     }
 
-    // TAXI
+    // =====================
+    // FAHRDIENST
+    // =====================
     window.taxiFormularZeigen = function() {
         document.getElementById("taxi-formular").classList.remove("versteckt");
     }
@@ -306,14 +377,13 @@
             zeigeMeldung("⚠️ Bitte Name und Sitzplätze eingeben!");
             return;
         }
-        const sitze = Array(plaetze).fill("");
-        window.daten.taxis.push({ name, plaetze, sitze });
+        window.daten.taxis.push({ name, plaetze, sitze: Array(plaetze).fill("") });
         taxiFormularVerstecken();
         taxiRendern();
     }
 
     window.taxiLoeschen = function(index) {
-        if (confirm("Taxi wirklich löschen?")) {
+        if (confirm("Fahrzeug wirklich löschen?")) {
             window.daten.taxis.splice(index, 1);
             taxiRendern();
         }
@@ -335,7 +405,7 @@
     function taxiRendern() {
         const liste = document.getElementById("taxi-liste");
         if (!window.daten.taxis || window.daten.taxis.length === 0) {
-            liste.innerHTML = "<p class='leer-hinweis'>Noch keine Taxis eingetragen</p>";
+            liste.innerHTML = "<p class='leer-hinweis'>Noch keine Fahrzeuge eingetragen</p>";
             return;
         }
 
@@ -351,9 +421,7 @@
                         <select onchange="sitzplatzAktualisieren(${ti}, ${si}, this.value)">
                             <option value="">-- Frei --</option>
                             ${teilnehmerOptionen}
-                            ${sitz && !window.daten.teilnehmer.includes(sitz) 
-                                ? `<option value="${sitz}" selected>${sitz}</option>` 
-                                : sitz ? `<option value="${sitz}" selected>${sitz}</option>` : ''}
+                            ${sitz ? `<option value="${sitz}" selected>${sitz}</option>` : ''}
                         </select>
                     </td>
                 </tr>
@@ -370,15 +438,10 @@
                             <button class="btn-delete" onclick="taxiLoeschen(${ti})">🗑️</button>
                         </div>
                     </div>
-                    <p class="sitzplatz-info">Sitzplätze: ${belegt}/${taxi.plaetze} belegt</p>
+                    <p class="sitzplatz-info">🪑 ${belegt}/${taxi.plaetze} Plätze belegt</p>
                     <div class="table-wrapper">
                         <table class="kategorie-tabelle">
-                            <thead>
-                                <tr>
-                                    <th>Platz</th>
-                                    <th>Name Mitfahrer</th>
-                                </tr>
-                            </thead>
+                            <thead><tr><th>Platz</th><th>Name Mitfahrer</th></tr></thead>
                             <tbody>${sitzeHTML}</tbody>
                         </table>
                     </div>
@@ -387,15 +450,220 @@
         }).join("");
     }
 
+    // =====================
+    // FUNKTIONEN
+    // =====================
+    window.funktionHinzufuegen = function() {
+        const input = document.getElementById("neue-funktion-name");
+        const name = input.value.trim();
+        if (!name) return;
+        if (window.daten.funktionen[name]) {
+            zeigeMeldung("⚠️ Funktion existiert bereits!");
+            return;
+        }
+        window.daten.funktionen[name] = { person: "", beschreibung: "" };
+        input.value = "";
+        funktionenRendern();
+    }
+
+    window.funktionLoeschen = function(name) {
+        if (confirm(`Funktion "${name}" wirklich löschen?`)) {
+            delete window.daten.funktionen[name];
+            funktionenRendern();
+        }
+    }
+
+    window.funktionAktualisieren = function(name, feld, wert) {
+        window.daten.funktionen[name][feld] = wert;
+    }
+
+    function getFunktionEmoji(name) {
+        const emojis = {
+            "CampPapa": "👨‍👧‍👦",
+            "Food Service Manager": "🍕",
+            "Pegel-Minister für Rausch und Genuss": "🍺",
+            "Direktor des Pfand- und Rückgabewesens": "♻️",
+            "Der Kater-Akustiker für Musik und Bass": "🎵"
+        };
+        return emojis[name] || "👔";
+    }
+
+    function funktionenRendern() {
+        const container = document.getElementById("funktionen-container");
+        if (!window.daten.funktionen) return;
+
+        const teilnehmerOptionen = (window.daten.teilnehmer || [])
+            .map(t => `<option value="${t}">${t}</option>`)
+            .join("");
+
+        const farben = ["lila", "pink", "orange", "gruen", "blau", "rot"];
+        let farbenIndex = 0;
+
+        container.innerHTML = Object.entries(window.daten.funktionen).map(([name, data]) => {
+            const farbe = farben[farbenIndex % farben.length];
+            farbenIndex++;
+            return `
+                <div class="container kategorie-box ${farbe}">
+                    <div class="section-header">
+                        <h2>${getFunktionEmoji(name)} ${name}</h2>
+                        <button class="btn-kategorie-loeschen" onclick="funktionLoeschen('${name}')">🗑️</button>
+                    </div>
+                    <div class="funktion-body">
+                        <label class="funktion-label">👤 Besetzt von:</label>
+                        <select class="funktion-select" onchange="funktionAktualisieren('${name}', 'person', this.value)">
+                            <option value="">-- Person auswählen --</option>
+                            ${teilnehmerOptionen}
+                            ${data.person ? `<option value="${data.person}" selected>${data.person}</option>` : ''}
+                        </select>
+                        <label class="funktion-label">📋 Stellenbeschreibung:</label>
+                        <textarea class="funktion-textarea" rows="4" 
+                            onchange="funktionAktualisieren('${name}', 'beschreibung', this.value)"
+                            placeholder="Aufgaben und Verantwortlichkeiten...">${data.beschreibung || ''}</textarea>
+                    </div>
+                </div>
+            `;
+        }).join("");
+    }
+
+    // =====================
+    // TIMETABLE
+    // =====================
+    window.timetableEintragHinzufuegen = function(tag) {
+        if (!window.daten.timetable[tag]) window.daten.timetable[tag] = [];
+        window.daten.timetable[tag].push({
+            uhrzeit: "", programm: "", ort: "", teilnehmer: []
+        });
+        timetableRendern();
+    }
+
+    window.timetableEintragLoeschen = function(tag, index) {
+        if (confirm("Eintrag wirklich löschen?")) {
+            window.daten.timetable[tag].splice(index, 1);
+            timetableRendern();
+        }
+    }
+
+    window.timetableAktualisieren = function(tag, index, feld, wert) {
+        window.daten.timetable[tag][index][feld] = wert;
+        if (feld === "uhrzeit") {
+            // Nach Uhrzeit sortieren (Festivaltag 10:00 - 06:00)
+            window.daten.timetable[tag].sort((a, b) => {
+                return festivalZeitVergleich(a.uhrzeit, b.uhrzeit);
+            });
+            timetableRendern();
+        }
+    }
+
+    window.timetableTeilnehmerToggle = function(tag, index, person) {
+        const teilnehmer = window.daten.timetable[tag][index].teilnehmer || [];
+        const pos = teilnehmer.indexOf(person);
+        if (pos === -1) {
+            teilnehmer.push(person);
+        } else {
+            teilnehmer.splice(pos, 1);
+        }
+        window.daten.timetable[tag][index].teilnehmer = teilnehmer;
+        timetableRendern();
+    }
+
+    function festivalZeitVergleich(a, b) {
+        if (!a) return 1;
+        if (!b) return -1;
+        // Festival läuft von 10:00 bis 06:00 (nächster Tag)
+        const toMinuten = (zeit) => {
+            const [h, m] = zeit.split(":").map(Number);
+            // Stunden vor 10 = nächster Tag (nach Mitternacht)
+            if (h < 10) return (h + 24) * 60 + (m || 0);
+            return h * 60 + (m || 0);
+        };
+        return toMinuten(a) - toMinuten(b);
+    }
+
+    function timetableRendern() {
+        const tage = ["Freitag", "Samstag", "Sonntag"];
+        const tagFarben = { "Freitag": "pink", "Samstag": "lila", "Sonntag": "orange" };
+        const tagEmojis = { "Freitag": "🎉", "Samstag": "🔥", "Sonntag": "💜" };
+
+        tage.forEach(tag => {
+            const container = document.getElementById(`timetable-${tag.toLowerCase()}`);
+            const eintraege = (window.daten.timetable[tag] || []);
+
+            const eintraegeHTML = eintraege.map((eintrag, i) => {
+                const teilnehmerChips = (window.daten.teilnehmer || []).map(person => {
+                    const dabei = (eintrag.teilnehmer || []).includes(person);
+                    return `
+                        <span class="teilnehmer-chip ${dabei ? 'dabei' : ''}" 
+                            onclick="timetableTeilnehmerToggle('${tag}', ${i}, '${person}')">
+                            ${dabei ? '✅' : '+'} ${person}
+                        </span>
+                    `;
+                }).join("");
+
+                return `
+                    <tr>
+                        <td>
+                            <input type="time" value="${eintrag.uhrzeit || ''}"
+                                onchange="timetableAktualisieren('${tag}', ${i}, 'uhrzeit', this.value)"
+                                style="min-width:100px;">
+                        </td>
+                        <td>
+                            <input type="text" value="${eintrag.programm || ''}"
+                                onchange="timetableAktualisieren('${tag}', ${i}, 'programm', this.value)"
+                                placeholder="Artist / Event" style="min-width:130px;">
+                        </td>
+                        <td>
+                            <input type="text" value="${eintrag.ort || ''}"
+                                onchange="timetableAktualisieren('${tag}', ${i}, 'ort', this.value)"
+                                placeholder="Stage / Ort" style="min-width:100px;">
+                        </td>
+                        <td>
+                            <div class="teilnehmer-chips">
+                                ${teilnehmerChips}
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn-row-delete" onclick="timetableEintragLoeschen('${tag}', ${i})">🗑️</button>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+
+            container.innerHTML = `
+                <div class="container kategorie-box ${tagFarben[tag]}">
+                    <div class="section-header">
+                        <h2>${tagEmojis[tag]} ${tag}</h2>
+                    </div>
+                    ${eintraege.length === 0 ? '<p class="leer-hinweis">Noch keine Einträge</p>' : `
+                    <div class="table-wrapper">
+                        <table class="kategorie-tabelle">
+                            <thead>
+                                <tr>
+                                    <th>⏰ Uhrzeit</th>
+                                    <th>🎵 Programm</th>
+                                    <th>📍 Ort</th>
+                                    <th>👥 Teilnehmer</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>${eintraegeHTML}</tbody>
+                        </table>
+                    </div>`}
+                    <button class="btn-add-item" onclick="timetableEintragHinzufuegen('${tag}')">+ Neue Aktion hinzufügen</button>
+                </div>
+            `;
+        });
+    }
+
+    // =====================
     // PDF EXPORT
+    // =====================
     window.pdfExport = function() {
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF();
 
         pdf.setFontSize(20);
         pdf.setTextColor(128, 0, 128);
-        pdf.text("🎪 Parookaville Packliste", 14, 20);
-
+        pdf.text("CampPapa Flores - Parookaville 2025", 14, 20);
         pdf.setFontSize(10);
         pdf.setTextColor(0, 0, 0);
         pdf.text(`Erstellt am: ${new Date().toLocaleDateString('de-DE')}`, 14, 28);
@@ -403,47 +671,35 @@
         let yPos = 38;
 
         Object.entries(window.daten.kategorien).forEach(([kategorie, items]) => {
-            if (yPos > 250) {
-                pdf.addPage();
-                yPos = 20;
-            }
-
+            if (yPos > 250) { pdf.addPage(); yPos = 20; }
             pdf.setFontSize(14);
             pdf.setTextColor(128, 0, 128);
             pdf.text(kategorie, 14, yPos);
             yPos += 5;
 
-            const tableData = items.map(item => [
-                item.item || "-",
-                item.wer || "-",
-                item.anzahl || "-",
-                item.kosten ? `${item.kosten}€` : "-",
-                item.kommentar || "-"
-            ]);
-
             pdf.autoTable({
                 startY: yPos,
                 head: [["Item", "Wer bringt es", "Anzahl", "Kosten", "Kommentar"]],
-                body: tableData,
+                body: items.map(item => [
+                    item.item || "-", item.wer || "-", item.anzahl || "-",
+                    item.kosten ? `${item.kosten}€` : "-", item.kommentar || "-"
+                ]),
                 theme: "grid",
                 headStyles: { fillColor: [128, 0, 128] },
                 styles: { fontSize: 9 },
                 margin: { left: 14 }
             });
-
             yPos = pdf.lastAutoTable.finalY + 10;
         });
 
-        pdf.save("parookaville-packliste.pdf");
+        pdf.save("camppapa-flores-packliste.pdf");
     }
 
+    // =====================
     // HILFSFUNKTIONEN
+    // =====================
     function getCategoryEmoji(name) {
-        const emojis = {
-            "Ausrüstung": "🎒",
-            "Fun": "🎉",
-            "Essen": "🍕",
-        };
+        const emojis = { "Ausrüstung": "🎒", "Fun": "🎉", "Essen": "🍕" };
         return emojis[name] || "📦";
     }
 
@@ -455,12 +711,11 @@
         setTimeout(() => meldung.remove(), 3000);
     }
 
-    // TABS
-    window.showTab = function(tab) {
+    window.showTab = function(tab, btn) {
         document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
         document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
         document.getElementById(`tab-${tab}`).classList.add("active");
-        event.target.classList.add("active");
+        btn.classList.add("active");
     }
 
 </script>
