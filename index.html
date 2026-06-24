@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎪 Parookaville 2024</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <h1>🎪 Parookaville</h1>
+    <p>Party Hard! 🎉🔥💜</p>
+</div>
+
+<!-- NAVIGATION -->
+<div class="nav-tabs">
+    <button class="nav-btn active" onclick="showTab('packliste')">🎒 Packliste</button>
+    <button class="nav-btn" onclick="showTab('fahrdienst')">🚕 Fahrdienst</button>
+</div>
+
+<!-- TEILNEHMER BEREICH -->
+<div class="container" id="teilnehmer-bereich">
+    <div class="section-header">
+        <h2>👥 Teilnehmer</h2>
+    </div>
+    <div class="teilnehmer-input">
+        <input type="text" id="neuer-teilnehmer" placeholder="Name eingeben..." maxlength="20">
+        <button class="btn-add" onclick="teilnehmerHinzufuegen()">+ Hinzufügen</button>
+    </div>
+    <div id="teilnehmer-liste" class="teilnehmer-liste"></div>
+</div>
+
+<!-- PACKLISTE TAB -->
+<div id="tab-packliste" class="tab-content active">
+
+    <!-- KATEGORIEN WERDEN HIER GELADEN -->
+    <div id="kategorien-container"></div>
+
+    <!-- NEUE KATEGORIE -->
+    <div class="container neue-kategorie-box">
+        <div class="section-header">
+            <h2>➕ Neue Kategorie</h2>
+        </div>
+        <div class="teilnehmer-input">
+            <input type="text" id="neue-kategorie-name" placeholder="Kategorie benennen...">
+            <button class="btn-add" onclick="kategorieHinzufuegen()">Erstellen</button>
+        </div>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="container action-buttons">
+        <button class="btn-save" onclick="allesSpeichern()">💾 Speichern</button>
+        <button class="btn-pdf" onclick="pdfExport()">📄 PDF Export</button>
+    </div>
+
+</div>
+
+<!-- FAHRDIENST TAB -->
+<div id="tab-fahrdienst" class="tab-content">
+
+    <div class="container">
+        <div class="section-header">
+            <h2>🚕 Fahrdienstplanung</h2>
+        </div>
+        <button class="btn-add-taxi" onclick="taxiFormularZeigen()">+ Neues Taxi hinzufügen</button>
+
+        <!-- TAXI FORMULAR -->
+        <div id="taxi-formular" class="taxi-formular versteckt">
+            <input type="text" id="taxi-name" placeholder="Fahrzeug Name z.B. Maxis Auto">
+            <input type="number" id="taxi-plaetze" placeholder="Anzahl Sitzplätze" min="1" max="20">
+            <button class="btn-save" onclick="taxiSpeichern()">✅ Taxi speichern</button>
+            <button class="btn-delete" onclick="taxiFormularVerstecken()">❌ Abbrechen</button>
+        </div>
+
+        <div id="taxi-liste"></div>
+        <button class="btn-save" style="margin-top:15px" onclick="fahrdienstSpeichern()">💾 Speichern</button>
+    </div>
+
+</div>
+
+<!-- FIREBASE -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCHv5CM8q4bbFzxqWwaHdM9a01lKNfZE_c",
+        authDomain: "estival-liste.firebaseapp.com",
+        projectId: "estival-liste",
+        storageBucket: "estival-liste.firebasestorage.app",
+        messagingSenderId: "614884078226",
+        appId: "1:614884078226:web:303e07220d76d22deaac4b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // GLOBALE DATEN
+    window.daten = {
+        teilnehmer: [],
+        kategorien: {
+            "Ausrüstung": [],
+            "Fun": [],
+            "Essen": []
+        },
+        taxis: []
+    };
+
+    // ECHTZEIT LISTENER - Daten automatisch laden
+    onSnapshot(doc(db, "parookaville", "daten"), (docSnap) => {
+        if (docSnap.exists()) {
+            window.daten = docSnap.data();
+            teilnehmerRendern();
+            kategorienRendern();
+            taxiRendern();
+        }
+    });
+
+    // SPEICHERN FUNKTIONEN
+    window.allesSpeichern = async function() {
+        try {
+            await setDoc(doc(db, "parookaville", "daten"), window.daten);
+            zeigeMeldung("✅ Gespeichert!");
+        } catch (e) {
+            zeigeMeldung("❌ Fehler beim Speichern!");
+        }
+    }
+
+    window.fahrdienstSpeichern = async function() {
+        try {
+            await setDoc(doc(db, "parookaville", "daten"), window.daten);
+            zeigeMeldung("✅ Fahrdienst gespeichert!");
+        } catch (e) {
+            zeigeMeldung("❌ Fehler beim Speichern!");
+        }
+    }
+
+    // TEILNEHMER
+    window.teilnehmerHinzufuegen = function() {
+        const input = document.getElementById("neuer-teilnehmer");
+        const name = input.value.trim();
+        if (!name) return;
+        if (window.daten.teilnehmer.includes(name)) {
+            zeigeMeldung("⚠️ Name bereits vorhanden!");
+            return;
+        }
+        window.daten.teilnehmer.push(name);
+        input.value = "";
+        teilnehmerRendern();
+        kategorienRendern();
+        taxiRendern();
+    }
+
+    window.teilnehmerLoeschen = function(index) {
+        window.daten.teilnehmer.splice(index, 1);
+        teilnehmerRendern();
+        kategorienRendern();
+        taxiRendern();
+    }
+
+    function teilnehmerRendern() {
+        const liste = document.getElementById("teilnehmer-liste");
+        if (!window.daten.teilnehmer || window.daten.teilnehmer.length === 0) {
+            liste.innerHTML = "<p class='leer-hinweis'>Noch keine Teilnehmer eingetragen</p>";
+            return;
+        }
+        liste.innerHTML = window.daten.teilnehmer.map((name, i) => `
+            <span class="teilnehmer-tag">
+                ${name}
+                <button onclick="teilnehmerLoeschen(${i})">×</button>
+            </span>
+        `).join("");
+    }
+
+    // KATEGORIEN
+    window.kategorieHinzufuegen = function() {
+        const input = document.getElementById("neue-kategorie-name");
+        const name = input.value.trim();
+        if (!name) return;
+        if (window.daten.kategorien[name]) {
+            zeigeMeldung("⚠️ Kategorie existiert bereits!");
+            return;
+        }
+        window.daten.kategorien[name] = [];
+        input.value = "";
+        kategorienRendern();
+    }
+
+    window.kategorieLoeschen = function(kategorie) {
+        if (confirm(`Kategorie "${kategorie}" wirklich löschen?`)) {
+            delete window.daten.kategorien[kategorie];
+            kategorienRendern();
+        }
+    }
+
+    window.itemHinzufuegen = function(kategorie) {
+        if (!window.daten.kategorien[kategorie]) return;
+        window.daten.kategorien[kategorie].push({
+            item: "",
+            wer: "",
+            anzahl: "",
+            kosten: "",
+            kommentar: ""
+        });
+        kategorienRendern();
+    }
+
+    window.itemLoeschen = function(kategorie, index) {
+        window.daten.kategorien[kategorie].splice(index, 1);
+        kategorienRendern();
+    }
+
+    window.itemAktualisieren = function(kategorie, index, feld, wert) {
+        window.daten.kategorien[kategorie][index][feld] = wert;
+    }
+
+    function kategorienRendern() {
+        const container = document.getElementById("kategorien-container");
+        if (!window.daten.kategorien) return;
+
+        const farben = ["lila", "pink", "orange", "gruen", "blau", "rot"];
+        let farbenIndex = 0;
+
+        container.innerHTML = Object.entries(window.daten.kategorien).map(([name, items]) => {
+            const farbe = farben[farbenIndex % farben.length];
+            farbenIndex++;
+            const teilnehmerOptionen = (window.daten.teilnehmer || [])
+                .map(t => `<option value="${t}">${t}</option>`)
+                .join("");
+
+            const zeilenHTML = items.map((item, i) => `
+                <tr>
+                    <td><input type="text" value="${item.item || ''}" 
+                        onchange="itemAktualisieren('${name}', ${i}, 'item', this.value)" 
+                        placeholder="Was?"></td>
+                    <td>
+                        <select onchange="itemAktualisieren('${name}', ${i}, 'wer', this.value)">
+                            <option value="">-- Wer? --</option>
+                            ${teilnehmerOptionen}
+                            ${item.wer && !window.daten.teilnehmer.includes(item.wer) 
+                                ? `<option value="${item.wer}" selected>${item.wer}</option>` 
+                                : `<option value="${item.wer}" ${item.wer ? 'selected' : ''}>${item.wer}</option>`}
+                        </select>
+                    </td>
+                    <td><input type="number" value="${item.anzahl || ''}" 
+                        onchange="itemAktualisieren('${name}', ${i}, 'anzahl', this.value)" 
+                        placeholder="0" min="0"></td>
+                    <td><input type="number" value="${item.kosten || ''}" 
+                        onchange="itemAktualisieren('${name}', ${i}, 'kosten', this.value)" 
+                        placeholder="0€" min="0" step="0.01"></td>
+                    <td><input type="text" value="${item.kommentar || ''}" 
+                        onchange="itemAktualisieren('${name}', ${i}, 'kommentar', this.value)" 
+                        placeholder="Kommentar..."></td>
+                    <td><button class="btn-row-delete" onclick="itemLoeschen('${name}', ${i})">🗑️</button></td>
+                </tr>
+            `).join("");
+
+            return `
+                <div class="container kategorie-box ${farbe}">
+                    <div class="section-header">
+                        <h2>${getCategoryEmoji(name)} ${name}</h2>
+                        <button class="btn-kategorie-loeschen" onclick="kategorieLoeschen('${name}')">🗑️ Löschen</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="kategorie-tabelle">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Wer bringt es</th>
+                                    <th>Anzahl</th>
+                                    <th>Kosten €</th>
+                                    <th>Kommentar</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${zeilenHTML}
+                            </tbody>
+                        </table>
+                    </div>
+                    <button class="btn-add-item" onclick="itemHinzufuegen('${name}')">+ Item hinzufügen</button>
+                </div>
+            `;
+        }).join("");
+    }
+
+    // TAXI
+    window.taxiFormularZeigen = function() {
+        document.getElementById("taxi-formular").classList.remove("versteckt");
+    }
+
+    window.taxiFormularVerstecken = function() {
+        document.getElementById("taxi-formular").classList.add("versteckt");
+        document.getElementById("taxi-name").value = "";
+        document.getElementById("taxi-plaetze").value = "";
+    }
+
+    window.taxiSpeichern = function() {
+        const name = document.getElementById("taxi-name").value.trim();
+        const plaetze = parseInt(document.getElementById("taxi-plaetze").value);
+        if (!name || !plaetze) {
+            zeigeMeldung("⚠️ Bitte Name und Sitzplätze eingeben!");
+            return;
+        }
+        const sitze = Array(plaetze).fill("");
+        window.daten.taxis.push({ name, plaetze, sitze });
+        taxiFormularVerstecken();
+        taxiRendern();
+    }
+
+    window.taxiLoeschen = function(index) {
+        if (confirm("Taxi wirklich löschen?")) {
+            window.daten.taxis.splice(index, 1);
+            taxiRendern();
+        }
+    }
+
+    window.taxiBearbeiten = function(index) {
+        const taxi = window.daten.taxis[index];
+        document.getElementById("taxi-name").value = taxi.name;
+        document.getElementById("taxi-plaetze").value = taxi.plaetze;
+        window.daten.taxis.splice(index, 1);
+        taxiRendern();
+        document.getElementById("taxi-formular").classList.remove("versteckt");
+    }
+
+    window.sitzplatzAktualisieren = function(taxiIndex, sitzIndex, wert) {
+        window.daten.taxis[taxiIndex].sitze[sitzIndex] = wert;
+    }
+
+    function taxiRendern() {
+        const liste = document.getElementById("taxi-liste");
+        if (!window.daten.taxis || window.daten.taxis.length === 0) {
+            liste.innerHTML = "<p class='leer-hinweis'>Noch keine Taxis eingetragen</p>";
+            return;
+        }
+
+        const teilnehmerOptionen = (window.daten.teilnehmer || [])
+            .map(t => `<option value="${t}">${t}</option>`)
+            .join("");
+
+        liste.innerHTML = window.daten.taxis.map((taxi, ti) => {
+            const sitzeHTML = taxi.sitze.map((sitz, si) => `
+                <tr>
+                    <td>Sitz ${si + 1}</td>
+                    <td>
+                        <select onchange="sitzplatzAktualisieren(${ti}, ${si}, this.value)">
+                            <option value="">-- Frei --</option>
+                            ${teilnehmerOptionen}
+                            ${sitz && !window.daten.teilnehmer.includes(sitz) 
+                                ? `<option value="${sitz}" selected>${sitz}</option>` 
+                                : sitz ? `<option value="${sitz}" selected>${sitz}</option>` : ''}
+                        </select>
+                    </td>
+                </tr>
+            `).join("");
+
+            const belegt = taxi.sitze.filter(s => s !== "").length;
+
+            return `
+                <div class="taxi-card">
+                    <div class="taxi-header">
+                        <h3>🚗 ${taxi.name}</h3>
+                        <div class="taxi-actions">
+                            <button class="btn-edit" onclick="taxiBearbeiten(${ti})">✏️</button>
+                            <button class="btn-delete" onclick="taxiLoeschen(${ti})">🗑️</button>
+                        </div>
+                    </div>
+                    <p class="sitzplatz-info">Sitzplätze: ${belegt}/${taxi.plaetze} belegt</p>
+                    <div class="table-wrapper">
+                        <table class="kategorie-tabelle">
+                            <thead>
+                                <tr>
+                                    <th>Platz</th>
+                                    <th>Name Mitfahrer</th>
+                                </tr>
+                            </thead>
+                            <tbody>${sitzeHTML}</tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }).join("");
+    }
+
+    // PDF EXPORT
+    window.pdfExport = function() {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF();
+
+        pdf.setFontSize(20);
+        pdf.setTextColor(128, 0, 128);
+        pdf.text("🎪 Parookaville Packliste", 14, 20);
+
+        pdf.setFontSize(10);
+        pdf.setTextColor(0, 0, 0);
+        pdf.text(`Erstellt am: ${new Date().toLocaleDateString('de-DE')}`, 14, 28);
+
+        let yPos = 38;
+
+        Object.entries(window.daten.kategorien).forEach(([kategorie, items]) => {
+            if (yPos > 250) {
+                pdf.addPage();
+                yPos = 20;
+            }
+
+            pdf.setFontSize(14);
+            pdf.setTextColor(128, 0, 128);
+            pdf.text(kategorie, 14, yPos);
+            yPos += 5;
+
+            const tableData = items.map(item => [
+                item.item || "-",
+                item.wer || "-",
+                item.anzahl || "-",
+                item.kosten ? `${item.kosten}€` : "-",
+                item.kommentar || "-"
+            ]);
+
+            pdf.autoTable({
+                startY: yPos,
+                head: [["Item", "Wer bringt es", "Anzahl", "Kosten", "Kommentar"]],
+                body: tableData,
+                theme: "grid",
+                headStyles: { fillColor: [128, 0, 128] },
+                styles: { fontSize: 9 },
+                margin: { left: 14 }
+            });
+
+            yPos = pdf.lastAutoTable.finalY + 10;
+        });
+
+        pdf.save("parookaville-packliste.pdf");
+    }
+
+    // HILFSFUNKTIONEN
+    function getCategoryEmoji(name) {
+        const emojis = {
+            "Ausrüstung": "🎒",
+            "Fun": "🎉",
+            "Essen": "🍕",
+        };
+        return emojis[name] || "📦";
+    }
+
+    function zeigeMeldung(text) {
+        const meldung = document.createElement("div");
+        meldung.className = "meldung";
+        meldung.textContent = text;
+        document.body.appendChild(meldung);
+        setTimeout(() => meldung.remove(), 3000);
+    }
+
+    // TABS
+    window.showTab = function(tab) {
+        document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+        document.getElementById(`tab-${tab}`).classList.add("active");
+        event.target.classList.add("active");
+    }
+
+</script>
+</body>
+</html>
